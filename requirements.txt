@@ -1,0 +1,15 @@
+# Dépendances de Capri (Python 3.12, Windows)
+Pillow
+numpy
+psutil
+pyautogui
+opencv-python        # nécessaire pour pyautogui.locateOnScreen(confidence=...)
+SpeechRecognition
+PyAudio              # micro pour SpeechRecognition
+soundcard
+soundfile
+plyer
+flask
+anthropic
+google-genai
+asknews

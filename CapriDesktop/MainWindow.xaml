@@ -1,0 +1,152 @@
+﻿<Window x:Class="CapriDesktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CAPRI HUD"
+        Width="440"
+        SizeToContent="Height"
+        MaxHeight="900"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        MouseDown="Window_MouseDown"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- COULEURS ET EFFETS CYBERPUNK -->
+    <Window.Resources>
+        <SolidColorBrush x:Key="HudCyan" Color="#00e5ff"/>
+        <SolidColorBrush x:Key="HudYellow" Color="#ffd000"/>
+        <SolidColorBrush x:Key="HudRed" Color="#ff0055"/>
+        <SolidColorBrush x:Key="HudDarkBox" Color="#dd09101d"/>
+
+        <DropShadowEffect x:Key="NeonGlowCyan"
+                          Color="#00e5ff"
+                          BlurRadius="8"
+                          ShadowDepth="0"
+                          Opacity="0.75"/>
+
+        <DropShadowEffect x:Key="NeonGlowYellow"
+                          Color="#ffd000"
+                          BlurRadius="8"
+                          ShadowDepth="0"
+                          Opacity="0.75"/>
+    </Window.Resources>
+
+    <Grid Margin="15" VerticalAlignment="Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 1. BARRE SUPERIEURE -->
+        <Grid Grid.Row="0" Margin="0,0,0,10" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Rectangle Width="4" Height="14" Fill="{StaticResource HudYellow}" Margin="0,0,6,0"/>
+                <TextBlock Text="CAPRI" Foreground="{StaticResource HudRed}" FontWeight="ExtraBold" FontSize="13" Margin="0,0,8,0" FontFamily="Consolas"/>
+                <TextBlock Text="PERSONAL LINK" Foreground="#88a0b0" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" FontFamily="Consolas"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <TextBlock Text="🎙" Foreground="#88a0b0" FontSize="12" Margin="0,0,10,0"/>
+                <TextBlock Text="🔊" Foreground="#88a0b0" FontSize="12" Margin="0,0,10,0"/>
+                <Button Content="✕" Click="Close_Click" Background="Transparent" Foreground="#88a0b0" BorderThickness="0" FontSize="11" Cursor="Hand" FontWeight="Bold"/>
+            </StackPanel>
+
+            <Rectangle VerticalAlignment="Bottom" Height="1" Fill="#204060" Margin="0,22,0,0"/>
+        </Grid>
+
+        <!-- 2. BULLE DE TRANSMISSION -->
+        <Grid Grid.Row="1" Margin="0,0,0,18" VerticalAlignment="Bottom">
+            <Border BorderBrush="{StaticResource HudCyan}"
+                    BorderThickness="1.5"
+                    Background="{StaticResource HudDarkBox}"
+                    CornerRadius="3"
+                    Effect="{StaticResource NeonGlowCyan}"
+                    Padding="14,10">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Text="YOU" Foreground="#64748b" FontSize="9" FontWeight="Bold" FontFamily="Consolas"/>
+                        <TextBlock Text="Terminal Link" Foreground="#94a3b8" FontStyle="Italic" FontSize="9" Margin="6,0,0,0" FontFamily="Consolas"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Rectangle Width="3" Height="12" Fill="{StaticResource HudRed}" Margin="0,0,6,0"/>
+                        <TextBlock Text="CAPRI /" Foreground="{StaticResource HudYellow}" FontSize="10" FontWeight="Bold" FontFamily="Consolas"/>
+                        <TextBlock Text="TRANSMISSION" Foreground="#88a0b0" FontSize="9" FontWeight="SemiBold" Margin="6,1,0,0" FontFamily="Consolas"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="DialogueText"
+                               Text="Connexion établie choom. Prête pour le run !"
+                               Foreground="#ffffff"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               FontFamily="Segoe UI"
+                               FontWeight="SemiBold"
+                               LineHeight="20"/>
+                </StackPanel>
+            </Border>
+
+            <Path Data="M 0,0 L 15,0 L 0,10 Z"
+                  Fill="{StaticResource HudCyan}"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom"
+                  Margin="0,0,45,-8"/>
+        </Grid>
+
+        <!-- 3. FRAME AVATAR ADAPTATIF -->
+        <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Border Background="{StaticResource HudDarkBox}"
+                    BorderBrush="{StaticResource HudYellow}"
+                    BorderThickness="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="8,-9,0,0"
+                    Panel.ZIndex="3"
+                    Padding="8,2">
+                <TextBlock x:Name="AvatarStatus"
+                           Text="CAPRI // IDLE"
+                           Foreground="{StaticResource HudYellow}"
+                           FontSize="9"
+                           FontWeight="Bold"
+                           FontFamily="Consolas"/>
+            </Border>
+
+            <Border x:Name="AvatarBorder"
+                    BorderBrush="{StaticResource HudYellow}"
+                    BorderThickness="2"
+                    Background="#050811"
+                    CornerRadius="2"
+                    ClipToBounds="True"
+                    Effect="{StaticResource NeonGlowYellow}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom">
+                <Grid>
+                    <Image x:Name="AvatarImage"
+                           Stretch="Uniform"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Panel.ZIndex="0"/>
+
+                    <Rectangle Opacity="0.12" IsHitTestVisible="False" Panel.ZIndex="1">
+                        <Rectangle.Fill>
+                            <VisualBrush TileMode="Tile" Viewport="0,0,1,4" ViewportUnits="Absolute">
+                                <VisualBrush.Visual>
+                                    <Line X1="0" Y1="0" X2="1" Y2="0" Stroke="#ffffff" StrokeThickness="1"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <Grid VerticalAlignment="Bottom" Margin="8,6" Panel.ZIndex="2">
+                        <TextBlock Text="STATUS : ACTIVE" Foreground="#557799" FontSize="9" FontFamily="Consolas" FontWeight="Bold" HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="LINK OK" Foreground="#335577" FontSize="8" FontFamily="Consolas" Margin="0,0,8,0"/>
+                            <TextBlock Text="■■■■■■□□" Foreground="{StaticResource HudYellow}" FontSize="8" FontFamily="Consolas"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
