@@ -1,0 +1,9 @@
+{
+  "_info": "Exemple uniquement. Les vrais réglages sont créés automatiquement dans %USERPROFILE%\\.capri\\ . Les clés API se saisissent dans la console de Capri.",
+  "api_key": "",
+  "asknews_key": "",
+  "anthropic_api_key": "",
+  "ntfy_topic": "",
+  "prenom": "",
+  "windows_pin": ""
+}
